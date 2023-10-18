@@ -31,6 +31,40 @@ Note that this code is for the ones that are advertised to be compatible with th
 %     -While there are sanity checks in the code, make sure you know what you are doing first. If not, then the function may crash, which in turn crashes Matlab, and your data within it.
 ```
 
+### Examples
+
+Let's say you have a cheap DMX RGB light. The instructions are:
+Channel | Value range | Function
+--------|:-------:|---------
+Base address `+0` | `0-255` | Total Dimming
+Base address `+1` | `0-255` | Red
+Base address `+2` | `0-255` | Green
+Base address `+3` | `0-255` | Blue
+Base address `+4` | `0-255` | Strobe
+Base address `+5` | `0-50` | No function
+Base address `+5` | `51-100` | Preset colours
+Base address `+5` | `101-150` | Silly effect 1
+Base address `+5` | `151-200` | Silly effect 2
+Base address `+5` | `201-255` | Sound-activated mode
+Base address `+6` | `0-255` | Silly effect change speed (slow to fast)
+
+There should be a display and some buttons on the light, where you can set the base address. Let's set it to `100`. So `101` becomes the dimming channel, `101` is red, and so on.
+
+You can specify a single channel, or multiple channels.
+
+* At first, it's probably best to specify all the channels and fill the data with zeros, just in case there was some previous information stored in the light's memory:
+`dmx('send', [100:106], zeros(1, 7))`
+
+* Set full brightness, green only.
+`dmx('send', [100, 101, 102], [255, 0, 255])`
+
+* Now the light is behaving how it should, why not add some red to the green to make it yellow?
+`dmx('send', 101, 255)`
+
+* ...and finally, we reconfigure the entire light to produce some soothing effect in the office:
+`dmx('send', [100:106], [64, 0, 0, 0, 0, 160, 80])`
+
+Since there are a lot of devices that use the DMX512 standard, you need to know what device you are connecting to. If you don't understand what channels and what values correspond to which functions, you could present a danger to health or equipment.
 ### Additional diagnostic functions
 
 If something doesn't work, these functions allow you to check whether your uDMX device is detectable and/or a connection can be established.
@@ -62,7 +96,7 @@ The following are *NOT* implemented, and probably won't be:
 This one allows you to set the value of a single channel. `cmd_SetChannelRange` can do everything this can do. There is very little extra communication overhead here, so there is no real reason for this to be implemented.
 
 * `cmd_StartBootloader` (`0x0F8`):
-This one is for the firmware update over USB. Since [nobody really touched this in the past decade or so](https://github.com/mirdej/udmx/blob/master/firmware/main.c), I don't think it's a good idea to risk bricking devices by allowing the upload of outdated or corrupt firmware. If you are desperate for a new firmeare, disassemble the device, and upload it using a USBasp programmer.
+This one is for the firmware update over USB. Since [nobody really touched this in the past decade or so](https://github.com/mirdej/udmx/blob/master/firmware/main.c), I don't think it's a good idea to risk bricking devices by allowing the upload of outdated or corrupt firmware. If you are desperate for a new firmware, disassemble the device, and upload it using a USBasp programmer.
 
 ## Compiling
 
