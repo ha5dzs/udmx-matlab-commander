@@ -47,7 +47,7 @@ Once all the transfer is finished, it frees the USB device (`Usb.Free(handle)`) 
 
 #### What is different from other implementations?
 
-This code is designed to be natively run on the computer with Matlab. I also migrated from [libusb-win32](https://sourceforge.net/projects/libusb-win32/) to the more recent [libusbK](https://github.com/mcuee/libusbk). The [illuzmination implementation](https://www.illutzmination.de/udmxdriver.html?&L=1) failed to run on my machines, presumably becuase it doesn't include any 64-bit code. Not having found the source code for the `uDMX.dll`, I decided to write my own. (...and reverse-engineer some code, understand libusb-win32, and libusbK, and find out a bunch of stuff about the USB standard I never thought I needed. I am not sure if I did this correctly, but it works, I can control my lights, amd it only takes 6-7 millisconds to send instructions.)
+This code is designed to be natively run on the computer with Matlab. I also migrated from [libusb-win32](https://sourceforge.net/projects/libusb-win32/) to the more recent [libusbK](https://github.com/mcuee/libusbk). The [illuzmination implementation](https://www.illutzmination.de/udmxdriver.html?&L=1) failed to run on my machines, presumably because it doesn't include any 64-bit code. Not having found the source code for the `uDMX.dll`, I decided to write my own. (...and reverse-engineer some code, understand libusb-win32, and libusbK, and find out a bunch of stuff about the USB standard I never thought I needed. I am not sure if I did this correctly, but it works, I can control my lights, and it only takes 6-7 millisconds to send instructions.)
 
 #### What is implemented?
 
