@@ -48,7 +48,7 @@ Base address `+5` | `151-200` | Silly effect 2
 Base address `+5` | `201-255` | Sound-activated mode
 Base address `+6` | `0-255` | Silly effect change speed (slow to fast)
 
-There should be a display and some buttons on the light, where you can set the base address. Let's set it to `100`. So `101` becomes the dimming channel, `101` is red, and so on.
+There should be a display and some buttons on the light, where you can set the base address. Let's set it to `100`. So `100` becomes the dimming channel, `101` is red, and so on.
 
 You can specify a single channel, or multiple channels.
 
