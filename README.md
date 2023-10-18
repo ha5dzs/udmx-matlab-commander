@@ -53,16 +53,23 @@ There should be a display and some buttons on the light, where you can set the b
 You can specify a single channel, or multiple channels.
 
 * At first, it's probably best to specify all the channels and fill the data with zeros, just in case there was some previous information stored in the light's memory:
-`dmx('send', [100:106], zeros(1, 7))`
+`fail = dmx('send', [100:106], zeros(1, 7))`
 
 * Set full brightness, green only.
-`dmx('send', [100, 101, 102], [255, 0, 255])`
+`fail = dmx('send', [100, 101, 102], [255, 0, 255])`
 
 * Now the light is behaving how it should, why not add some red to the green to make it yellow?
-`dmx('send', 101, 255)`
+`fail = dmx('send', 101, 255)`
 
 * ...and finally, we reconfigure the entire light to produce some soothing effect in the office:
-`dmx('send', [100:106], [64, 0, 0, 0, 0, 160, 80])`
+`fail = dmx('send', [100:106], [64, 0, 0, 0, 0, 160, 80])`
+
+Also, just in case, here is the return variable:
+```Matlab
+if(fail)
+    error('Something went horribly wrong with the USB communication')
+end
+```
 
 Since there are a lot of devices that use the DMX512 standard, you need to know what device you are connecting to. If you don't understand what channels and what values correspond to which functions, you could present a danger to health or equipment.
 ### Additional diagnostic functions
@@ -77,7 +84,7 @@ If something doesn't work, these functions allow you to check whether your uDMX 
 
 The code does a bunch of sanity checks on the inputs. It gets a list of the USB devices that use libusbk/winusb (`LstK_Init(&deviceList, 0)`), selects the correct one by vid/pid (`LstK_FindByVidPid(deviceList, UDMX_VENDOR_ID, UDMX_PRODUCT_ID, &deviceInfo)`), loads the driver API (`LibK_LoadDriverAPI(&Usb, deviceInfo->DriverID)`), then opens the selected device (`Usb.Init(&handle, deviceInfo)`). Then it takes the previously-sanity-checked-and-appropriately-converted input arguments, and transfers all this information to the device (`UsbK_ControlTransfer(handle, Pkt, data_to_be_sent, no_of_channels, &transferred, NULL)`) from the host computer as a vendor-type request. The [firmware](https://github.com/mirdej/udmx/blob/master/firmware/main.c) on the usb device's Atmel microcontroller updates its buffer and updates the DMX frames accordingly.
 
-Once all the transfer is finished, it frees the USB device (`Usb.Free(handle)`) and lets go of the device list (`LstK_Free(deviceList)`) as well. For good measure, the code also returns a boolean to indicate if the transfer was successful (0) or not (1).
+Once all the transfer is finished, it frees the USB device (`Usb.Free(handle)`) and lets go of the device list (`LstK_Free(deviceList)`) as well. For good measure, the code also returns a boolean to indicate if the transfer was successful (0) or not (1). If something fails in the interim, you will get meaningful error messages. If you need to debug, remove the comment line from `#define VERBOSE`, and recompile the code for extra information.
 
 #### What is different from other implementations?
 
