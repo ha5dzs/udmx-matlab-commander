@@ -17,17 +17,19 @@ Note that this code is for the ones that are advertised to be compatible with th
 ## Usage
 
 ### `dmx('send', addresses, data_values)`
-DMX is a function that allows you to send DMX512 packets using a uDMX dongle.
-Input arguments are:
-    -'send', which must be here and set to this value. This is the entry point for the mex function.
-    -addresses is a vector of increasing integers that defines the DMX channel range.
-    -data_values is a vector which contains the channel data.
-Returns:
-    - 0 if everything went well, 1 otherwise.
-IMPORTANT:
-    -Everything must be integers. If you use different variable types (i.e. Double), the function will convert them to integers.
-    -The addresses must be strictly monotonically increasing by 1, in a continuous interval: 25:40 is fine, but 23:30 and 34:40 concatenated together is not.
-    -While there are sanity checks in the code, make sure you know what you are doing first. If not, then the function may crash, which in turn crashes Matlab, and your data within it.
+```Matlab
+% DMX is a function that allows you to send DMX512 frames using a uDMX dongle.
+% Input arguments are:
+%     -'send', which must be here and set to this value. This is the entry point for the mex function.
+%     -addresses is a vector of increasing integers that defines the DMX channel range.
+%     -data_values is a vector which contains the channel data.
+% Returns:
+%     - 0 if everything went well, 1 otherwise.
+% IMPORTANT:
+%     -Everything must be integers. If you use different variable types (i.e. Double), the function will convert them to integers.
+%     -The addresses must be strictly monotonically increasing by 1, in a continuous interval: 25:40 is fine, but 23:30 and 34:40 concatenated together is not.
+%     -While there are sanity checks in the code, make sure you know what you are doing first. If not, then the function may crash, which in turn crashes Matlab, and your data within it.
+```
 
 ### Additional diagnostic functions
 
