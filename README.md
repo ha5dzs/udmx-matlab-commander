@@ -6,9 +6,11 @@ Note that this code is for the ones that are advertised to be compatible with th
 
 ## Setting up
 
-* Install the **included** ILLUZMINATION uDMX driver. In the device manager, you should see the uDMX device under 'libusbK Usb Devices'
+* If you want to keep it simple and don't want to compile, [download the binary in the release section](https://github.com/ha5dzs/udmx-matlab-commander/releases).
 
-* Add the `.mexw64` file, along with the dll file to your Matlab path.
+* Install the **included** ILLUZMINATION uDMX driver. In the device manager, you should see the uDMX device under 'libusbK Usb Devices'.
+
+* Add the `.mexw64` file, along with the dll files to your Matlab path.
 
 * you now have access to the `dmx()` function, see below how to use it.
 
