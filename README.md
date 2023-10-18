@@ -71,7 +71,7 @@ If something doesn't work, these functions allow you to check whether your uDMX 
 
 * `dmx('list')` prints the available devices to the command window. This is useful if you want to verify if the driver is loaded correctly.
 
-* `dmx('devicetest')` attempts to open and close connection to the device. The default USB VID/PID is `16c0:05dc`. This is set with two `#define`s in lines 38-39 of `dmx.c`, change it and recompile if your device is different.
+* `dmx('devicetest')` attempts to open and close connection to the device. The default USB VID/PID is `16c0:05dc`. This is set with two `#define`s in lines 38-39 of `dmx.c`, change it and recompile if your device is different. If your USB device has an LED, you should see it blink or change colour when you call this.
 
 ### How does it work?
 
