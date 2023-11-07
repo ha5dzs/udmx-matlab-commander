@@ -1,1 +1,0 @@
-rundll32.exe uDMX.dll, ConfigureModal

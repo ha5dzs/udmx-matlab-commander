@@ -1,6 +1,6 @@
 # uDMX Matlab Commander (for Windows)
 
-Sometimes, you just need to set up a simple experiment and have to control some lights using Matlab. Sometimes, the lights are 'intelligent' lights, and have [DMX512](https://en.wikipedia.org/wiki/DMX512) interfaces. There are [these cheap (16c0:05e4) dongles](https://anyma.ch/research/udmx/) that can be used to control DMX512 devices, but it is suprisingly difficult to get these to work. This implementation uses the [libusbK](https://libusbk.sourceforge.net/UsbK3/examples_8h.html) driver to communicate with the device.
+Sometimes, you just need to set up a simple experiment and have to control some lights using Matlab. Sometimes, the lights are 'intelligent' lights, and have [DMX512](https://en.wikipedia.org/wiki/DMX512) interfaces. There are [these cheap (16c0:05e4) dongles](https://anyma.ch/research/udmx/) that can be used to control DMX512 devices, but it is suprisingly difficult to get these to work. This implementation uses the stock [libusbK](https://libusbk.sourceforge.net/UsbK3/examples_8h.html) driver to communicate with the device.
 
 Note that this code is for the ones that are advertised to be compatible with the [FreeStyler](https://www.freestylerdmx.be/) DMX software: sometimes it's referred to as the [anyma uDMX USB_DMX interface](https://anyma.ch/research/udmx/), or the [ILLUTZMINATOR001 - uDMX - VOTI Artnet node](https://www.illutzmination.de/udmx.html?&L=1). On popular webshops, you could also find it as 'Low-cost USB-DMX cable' that comes with a CD and a note to follow the instructions carefully. With good reason. :)
 
@@ -8,7 +8,11 @@ Note that this code is for the ones that are advertised to be compatible with th
 
 * If you want to keep it simple and don't want to compile, [download the binary in the release section](https://github.com/ha5dzs/udmx-matlab-commander/releases).
 
-* Install the **included** ILLUZMINATION uDMX driver. In the device manager, you should see the uDMX device under 'libusbK Usb Devices'.
+* Plug in your uDMX device. Don't install a driver.
+
+* Download [zadig](https://zadig.akeo.ie/), and replace the driver for the uDMX device to 'libusbK'.
+ **WARNING** Zadig is a weapon of mass destruction. It allows you to replace ANY driver. Make sure you carefully select your device and the driver you want.
+ In the device manager, you should see the uDMX device under 'libusbK Usb Devices'. once this process was done successfully.
 
 * Add the `.mexw64` file, along with the dll files to your Matlab path.
 
@@ -88,7 +92,7 @@ Once all the transfer is finished, it frees the USB device (`Usb.Free(handle)`) 
 
 #### What is different from other implementations?
 
-This code is designed to be natively run on the computer with Matlab. I also migrated from [libusb-win32](https://sourceforge.net/projects/libusb-win32/) to the more recent [libusbK](https://github.com/mcuee/libusbk). The [illuzmination implementation](https://www.illutzmination.de/udmxdriver.html?&L=1) failed to run on my machines, presumably because it doesn't include any 64-bit code. Not having found the source code for the `uDMX.dll`, I decided to write my own. (...and reverse-engineer some code, understand libusb-win32, and libusbK, and find out a bunch of stuff about the USB standard I never thought I needed. I am not sure if I did this correctly, but it works, I can control my lights, and it only takes 6-7 millisconds to send instructions.)
+This code is designed to be natively run on the computer with Matlab. I also migrated from [libusb-win32](https://sourceforge.net/projects/libusb-win32/) to the more recent [libusbK](https://github.com/mcuee/libusbk). The [illutzmination implementation](https://www.illutzmination.de/udmxdriver.html?&L=1) failed to run on my machines, presumably because it doesn't include any 64-bit code. Not having found the source code for the `uDMX.dll`, I decided to write my own, and reverse-engineer some code, understand libusb-win32, and libusbK, and find out a bunch of stuff about the USB standard I never thought I needed. I am not sure if I did this correctly, but it works, I can control my lights, and it only takes 6-7 millisconds to send instructions.
 
 #### What is implemented?
 
